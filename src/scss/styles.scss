@@ -15,28 +15,42 @@ img {
     }
 }
 
+.countdown {
+    max-width: 200px;
+    margin: 0 auto;
+
+    @media screen and (min-width: $screen-sm) {
+        max-width: none;
+        margin: 0;
+    }
+}
+
 .countdown-format {
     background-color: var(--bs-dark);
     color: var(--bs-white);
-    padding: 10px;
     text-align: center;
-    width: 80px;
-    margin: 0 20px 20px 0;
+    width: 90px;
+    height: 90px;
+    margin: 0 10px 10px 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: column;
+    text-transform: uppercase;
 
     @media screen and (min-width: $screen-sm) {
         width: 90px;
         height: 90px;
-        margin-bottom: 0;
+        margin: 0 20px 0 0;
     }
 
     h5 {
-        @media screen and (min-width: $screen-sm) {
-            font-size: 1.75rem;
-        }
+        margin-bottom: 0;
+        font-size: 2rem;
+    }
+
+    span {
+        font-size: 0.9rem;
     }
 }
