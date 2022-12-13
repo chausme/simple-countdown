@@ -2,6 +2,14 @@
 
 const getFutureDate = () => new Date(2023, 4, 22, 11, 30, 0);
 
+// get time diff
+
+const getTimeDiff = futureDate => {
+    const futureTime = futureDate.getTime();
+    const today = new Date().getTime();
+    return futureTime - today;
+};
+
 // set end date
 
 const outputEndDate = () => {
@@ -34,6 +42,7 @@ const outputEndDate = () => {
     const endDate = document.querySelector('.end-date');
 
     const futureDate = getFutureDate();
+    const timeDiff = getTimeDiff(futureDate);
     const year = futureDate.getFullYear();
     const day = futureDate.getDate();
     const hours = futureDate.getHours();
@@ -41,21 +50,20 @@ const outputEndDate = () => {
     const monthIndex = futureDate.getMonth();
     const weekdayIndex = futureDate.getDay();
 
-    endDate.textContent = `Middle Front-end Course ends on ${weekdays[weekdayIndex]}, ${day} ${months[monthIndex]} ${year} ${hours}:${minutes}am`;
+    endDate.textContent = `Middle Front-end Course ${timeDiff < 0 ? 'has ended' : 'ends'} on ${
+        weekdays[weekdayIndex]
+    }, ${day} ${months[monthIndex]} ${year} ${hours}:${minutes}am`;
 };
 
 outputEndDate();
 
 // set countdown
 
-const remainingTime = () => {
-    const countdown = document.querySelector('.countdown');
+const getRemainingTime = () => {
     const items = document.querySelectorAll('.countdown-format h5');
 
     const futureDate = getFutureDate();
-    const futureTime = futureDate.getTime();
-    const today = new Date().getTime();
-    const timeDiff = futureTime - today;
+    const timeDiff = getTimeDiff(futureDate);
 
     // values in ms
     const msDay = 24 * 60 * 60 * 1000;
@@ -70,6 +78,15 @@ const remainingTime = () => {
 
     const values = [days, hours, minutes, seconds];
 
+    if (timeDiff < 0) {
+        items.forEach((item, index) => {
+            const el = item;
+            el.textContent = '-';
+        });
+        clearInterval(countdown);
+        return;
+    }
+
     const format = value => {
         if (value < 10) {
             return `0${value}`;
@@ -78,8 +95,10 @@ const remainingTime = () => {
     };
 
     items.forEach((item, index) => {
-        item.textContent = format(values[index]);
+        const el = item;
+        el.textContent = format(values[index]);
     });
 };
 
-remainingTime();
+const countdown = setInterval(getRemainingTime, 1000);
+getRemainingTime();
